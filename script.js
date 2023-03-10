@@ -173,7 +173,7 @@ function loadConfetti() {
 
 function loadConfettiHover() {
   confetti({
-    particleCount: 100,
+    particleCount: 500,
     spread: 70,
     origin: { y: 0.7 }
   });
@@ -181,7 +181,7 @@ function loadConfettiHover() {
 function handleImageHover() {
   console.log('Confetti für alle')
   confetti({
-    particleCount: 100,
+    particleCount: 300,
     spread: 70,
     origin: { y: 0.7 }
   });
@@ -191,6 +191,7 @@ function restartGame() {
   document.getElementById('header-image').src = './img/background-paper.jpg';
   document.getElementById('endScreen').style = 'display: none';
   document.getElementById('questionBody').style = '';
+  document.getElementById('header-image').classList.remove('confettiGo');
   rightQuestions = 0;
   currentQuestion = 0;
   init();
