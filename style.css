@@ -42,3 +42,11 @@ body{
     border: none;
     background: none;
 }
+.progress{
+    border-radius: none !important;
+}
+.button-row{
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}

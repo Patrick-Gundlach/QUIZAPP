@@ -26,14 +26,16 @@
 
   <div class="container">
     <div class="card quiz-card">
-      <img src="./img/background-paper.jpg" class="card-img-top">
+      <img src="./img/background-paper.jpg" id="header-image" class="card-img-top">
+      <div class="progress">
+        <div class="progress-bar" id="progressBar" role="progressbar" style="width: 0%">0%</div>
+      </div>
       <div class="card-body" id="endScreen" style="display: none;">
         <div class="text-center font-45">Quiz Beendet!</div>
-        <button class="finConfetti" id="confettiBtnFin" onmouseover="loadConfettiHover()" onload="loadConfettiHover()"><img class="width-100" src="./img/cup.png"></button>
-        <script>
-          loadConfetti();
-        </script>
-        <div class="text-center">Du ist xxx fragen von <b id="allQuestionsFin"></b> richtig beantwortet.</div>
+        <div class="text-center">Du hast <b id="amountOfRightQuestions"></b> von <b id="allQuestionsFin"></b> fragen richtig beantwortet.</div>
+        <div class="button-row">
+        <button onclick="restartGame()" class="btn btn-primary">Erneut spielen</button>
+      </div>
       </div>
       <div class="card-body" id="questionBody">
         <h5 class="card-title" id="questionText"></h5>

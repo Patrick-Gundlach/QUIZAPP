@@ -59,11 +59,14 @@ let questions = [
   },
 ];
 
+let rightQuestions = 0;
 let currentQuestion = 0;
+let AUDIO_SUCCESS = new Audio('audio/success.mp3');
+let AUDIO_FAIL = new Audio('audio/fail.mp3');
 
 function init() {
   document.getElementById('allQuestions').innerHTML = questions.length;
-  document.getElementById('allQuestionsFin').innerHTML = questions.length;
+
   showQuestion();
 }
 
@@ -71,8 +74,26 @@ function showQuestion() {
   if (currentQuestion >= questions.length) {
     document.getElementById('endScreen').style = '';
     document.getElementById('questionBody').style = 'display: none';
-  } else {
+    document.getElementById('allQuestionsFin').innerHTML = questions.length;
+    document.getElementById('amountOfRightQuestions').innerHTML = rightQuestions;
 
+    document.getElementById('header-image').src = './img/cup.png';
+    document.getElementById('header-image').classList.add('confettiGo');
+
+    let headerImageHover = document.querySelector('.confettiGo');
+
+    headerImageHover.addEventListener('mouseover', handleImageHover);
+
+  } else {
+    let percent = (currentQuestion + 1) / questions.length;
+    percent = Math.round(percent * 100);
+
+
+    document.getElementById('progressBar').innerHTML = `${percent} %`;
+    document.getElementById('progressBar').style = `width: ${percent}%`;
+
+    console.log(questions.length);
+    console.log('Fortschrit:', percent);
     let question = questions[currentQuestion];
     document.getElementById('isQuestions').innerHTML = currentQuestion + 1;
     document.getElementById('questionText').innerHTML = question['question'];
@@ -90,14 +111,16 @@ function answer(selection) {
 
   if (selectedQuestionNumber == question["right_answer"]) {
     document.getElementById(selection).parentNode.classList.add("bg-success");
+    AUDIO_SUCCESS.play();
+    rightQuestions++;
   } else {
     document.getElementById(selection).parentNode.classList.add("bg-danger");
-    document
-      .getElementById(idOfRightAnswer)
-      .parentNode.classList.add("bg-success");
+    document.getElementById(idOfRightAnswer).parentNode.classList.add("bg-success");
+    AUDIO_FAIL.play();
   }
   document.getElementById("nextButten").disabled = false;
 }
+
 function nextQuestion() {
   currentQuestion++;
   document.getElementById("nextButten").disabled = true;
@@ -134,4 +157,21 @@ function loadConfettiHover() {
     spread: 70,
     origin: {y: 0.7}
   });
+}
+function handleImageHover() {
+  console.log('Confetti für alle')
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: {y: 0.7}
+  });
+}
+
+function restartGame() {
+  document.getElementById('header-image').src = './img/background-paper.jpg';
+  document.getElementById('endScreen').style = 'display: none';
+    document.getElementById('questionBody').style = '';
+  rightQuestions = 0;
+  currentQuestion = 0;
+  init();
 }
