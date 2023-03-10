@@ -160,24 +160,6 @@ function resetAnswertButton() {
 }
 
 // Confetti
-function loadConfetti() {
-  let btnConfetti = document.querySelector('.finConfetti');
-  btnConfetti.addEventListener('click', function () {
-    confetti({
-      particleCount: 100,
-      spread: 300,
-      origin: { y: 0.6 }
-    })
-  })
-}
-
-function loadConfettiHover() {
-  confetti({
-    particleCount: 500,
-    spread: 70,
-    origin: { y: 0.7 }
-  });
-}
 function handleImageHover() {
   console.log('Confetti für alle')
   confetti({
