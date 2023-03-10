@@ -71,37 +71,47 @@ function init() {
 }
 
 function showQuestion() {
-  if (currentQuestion >= questions.length) {
-    document.getElementById('endScreen').style = '';
-    document.getElementById('questionBody').style = 'display: none';
-    document.getElementById('allQuestionsFin').innerHTML = questions.length;
-    document.getElementById('amountOfRightQuestions').innerHTML = rightQuestions;
-
-    document.getElementById('header-image').src = './img/cup.png';
-    document.getElementById('header-image').classList.add('confettiGo');
-
-    let headerImageHover = document.querySelector('.confettiGo');
-
-    headerImageHover.addEventListener('mouseover', handleImageHover);
+  if (gameIsOver()) {
+    sohwEndScreen();
 
   } else {
-    let percent = (currentQuestion + 1) / questions.length;
-    percent = Math.round(percent * 100);
-
-
-    document.getElementById('progressBar').innerHTML = `${percent} %`;
-    document.getElementById('progressBar').style = `width: ${percent}%`;
-
-    console.log(questions.length);
-    console.log('Fortschrit:', percent);
-    let question = questions[currentQuestion];
-    document.getElementById('isQuestions').innerHTML = currentQuestion + 1;
-    document.getElementById('questionText').innerHTML = question['question'];
-    document.getElementById('answer_1').innerHTML = question['answer_1'];
-    document.getElementById('answer_2').innerHTML = question['answer_2'];
-    document.getElementById('answer_3').innerHTML = question['answer_3'];
-    document.getElementById('answer_4').innerHTML = question['answer_4'];
+    updateProgressBar()
+    updateToNextQuestion();
   }
+}
+function gameIsOver() {
+  return currentQuestion >= questions.length;
+}
+function sohwEndScreen() {
+  document.getElementById('endScreen').style = '';
+  document.getElementById('questionBody').style = 'display: none';
+  document.getElementById('allQuestionsFin').innerHTML = questions.length;
+  document.getElementById('amountOfRightQuestions').innerHTML = rightQuestions;
+  document.getElementById('header-image').src = './img/cup.png';
+  startConfetti();
+}
+
+function startConfetti(){
+  document.getElementById('header-image').classList.add('confettiGo');
+  let headerImageHover = document.querySelector('.confettiGo');
+  headerImageHover.addEventListener('mouseover', handleImageHover);
+}
+
+
+function updateToNextQuestion() {
+  let question = questions[currentQuestion];
+  document.getElementById('isQuestions').innerHTML = currentQuestion + 1;
+  document.getElementById('questionText').innerHTML = question['question'];
+  document.getElementById('answer_1').innerHTML = question['answer_1'];
+  document.getElementById('answer_2').innerHTML = question['answer_2'];
+  document.getElementById('answer_3').innerHTML = question['answer_3'];
+  document.getElementById('answer_4').innerHTML = question['answer_4'];
+}
+function updateProgressBar() {
+  let percent = (currentQuestion + 1) / questions.length;
+  percent = Math.round(percent * 100);
+  document.getElementById('progressBar').innerHTML = `${percent} %`;
+  document.getElementById('progressBar').style = `width: ${percent}%`;
 }
 
 function answer(selection) {
@@ -109,18 +119,28 @@ function answer(selection) {
   let selectedQuestionNumber = selection.slice(-1);
   let idOfRightAnswer = `answer_${question["right_answer"]}`;
 
-  if (selectedQuestionNumber == question["right_answer"]) {
-    document.getElementById(selection).parentNode.classList.add("bg-success");
-    AUDIO_SUCCESS.play();
-    rightQuestions++;
+  if (rightAnswerSelected(selectedQuestionNumber, question)) {
+    successButton(selection);
   } else {
-    document.getElementById(selection).parentNode.classList.add("bg-danger");
-    document.getElementById(idOfRightAnswer).parentNode.classList.add("bg-success");
-    AUDIO_FAIL.play();
+    dagerButton(selection, idOfRightAnswer);
   }
   document.getElementById("nextButten").disabled = false;
 }
 
+function rightAnswerSelected(selectedQuestionNumber, question) {
+  return selectedQuestionNumber == question['right_answer'];
+}
+
+function successButton(selection) {
+  document.getElementById(selection).parentNode.classList.add("bg-success");
+  AUDIO_SUCCESS.play();
+  rightQuestions++;
+}
+function dagerButton(selection, idOfRightAnswer) {
+  document.getElementById(selection).parentNode.classList.add("bg-danger");
+  document.getElementById(idOfRightAnswer).parentNode.classList.add("bg-success");
+  AUDIO_FAIL.play();
+}
 function nextQuestion() {
   currentQuestion++;
   document.getElementById("nextButten").disabled = true;
@@ -140,14 +160,14 @@ function resetAnswertButton() {
 }
 
 // Confetti
-function loadConfetti(){
+function loadConfetti() {
   let btnConfetti = document.querySelector('.finConfetti');
-  btnConfetti.addEventListener('click', function(){
+  btnConfetti.addEventListener('click', function () {
     confetti({
       particleCount: 100,
       spread: 300,
-      origin: {y: 0.6}
-   })
+      origin: { y: 0.6 }
+    })
   })
 }
 
@@ -155,7 +175,7 @@ function loadConfettiHover() {
   confetti({
     particleCount: 100,
     spread: 70,
-    origin: {y: 0.7}
+    origin: { y: 0.7 }
   });
 }
 function handleImageHover() {
@@ -163,14 +183,14 @@ function handleImageHover() {
   confetti({
     particleCount: 100,
     spread: 70,
-    origin: {y: 0.7}
+    origin: { y: 0.7 }
   });
 }
 
 function restartGame() {
   document.getElementById('header-image').src = './img/background-paper.jpg';
   document.getElementById('endScreen').style = 'display: none';
-    document.getElementById('questionBody').style = '';
+  document.getElementById('questionBody').style = '';
   rightQuestions = 0;
   currentQuestion = 0;
   init();
