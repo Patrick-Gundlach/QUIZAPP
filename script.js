@@ -63,14 +63,16 @@ let currentQuestion = 0;
 
 function init() {
   document.getElementById('allQuestions').innerHTML = questions.length;
+  document.getElementById('allQuestionsFin').innerHTML = questions.length;
   showQuestion();
 }
 
 function showQuestion() {
   if (currentQuestion >= questions.length) {
     document.getElementById('endScreen').style = '';
-    document.getElementById('questionBody').style = 'dispaly: none';
+    document.getElementById('questionBody').style = 'display: none';
   } else {
+
     let question = questions[currentQuestion];
     document.getElementById('isQuestions').innerHTML = currentQuestion + 1;
     document.getElementById('questionText').innerHTML = question['question'];
@@ -112,4 +114,24 @@ function resetAnswertButton() {
   document.getElementById("answer_3").parentNode.classList.remove("bg-success");
   document.getElementById("answer_4").parentNode.classList.remove("bg-danger");
   document.getElementById("answer_4").parentNode.classList.remove("bg-success");
+}
+
+// Confetti
+function loadConfetti(){
+  let btnConfetti = document.querySelector('.finConfetti');
+  btnConfetti.addEventListener('click', function(){
+    confetti({
+      particleCount: 100,
+      spread: 300,
+      origin: {y: 0.6}
+   })
+  })
+}
+
+function loadConfettiHover() {
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: {y: 0.7}
+  });
 }

@@ -29,3 +29,16 @@ body{
 .bg-success, .bg-danger{
     color: #ffffff;
 }
+.width-100{
+    width: 100%;
+}
+.text-center{
+    text-align: center;
+}
+.font-45{
+    font-size: 45px;
+}
+.finConfetti{
+    border: none;
+    background: none;
+}
