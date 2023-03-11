@@ -91,10 +91,21 @@ function sohwEndScreen() {
   startConfetti();
 }
 
+// Confetti
 function startConfetti(){
   document.getElementById('header-image').classList.add('confettiGo');
   let headerImageHover = document.querySelector('.confettiGo');
   headerImageHover.addEventListener('mouseover', handleImageHover);
+}
+
+
+function handleImageHover() {
+  console.log('Confetti für alle')
+  confetti({
+    particleCount: 300,
+    spread: 70,
+    origin: { y: 0.7 }
+  });
 }
 
 
@@ -159,20 +170,12 @@ function resetAnswertButton() {
   document.getElementById("answer_4").parentNode.classList.remove("bg-success");
 }
 
-// Confetti
-function handleImageHover() {
-  console.log('Confetti für alle')
-  confetti({
-    particleCount: 300,
-    spread: 70,
-    origin: { y: 0.7 }
-  });
-}
-
 function restartGame() {
   document.getElementById('header-image').src = './img/background-paper.jpg';
   document.getElementById('endScreen').style = 'display: none';
   document.getElementById('questionBody').style = '';
+  let headerImageHover = document.querySelector('.confettiGo');
+  headerImageHover.removeEventListener('mouseover', handleImageHover);
   document.getElementById('header-image').classList.remove('confettiGo');
   rightQuestions = 0;
   currentQuestion = 0;
