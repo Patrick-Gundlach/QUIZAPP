@@ -77,6 +77,9 @@ function showQuestion() {
   } else {
     updateProgressBar()
     updateToNextQuestion();
+    document.querySelectorAll(".quiz-answer-card").forEach(element => {
+      element.disabled = false;
+    });
   }
 }
 function gameIsOver() {
@@ -85,6 +88,7 @@ function gameIsOver() {
 function sohwEndScreen() {
   document.getElementById('endScreen').style = '';
   document.getElementById('questionBody').style = 'display: none';
+  document.querySelector('.question-footer').style.display = 'none';
   document.getElementById('allQuestionsFin').innerHTML = questions.length;
   document.getElementById('amountOfRightQuestions').innerHTML = rightQuestions;
   document.getElementById('header-image').src = './img/cup.png';
@@ -132,10 +136,13 @@ function answer(selection) {
 
   if (rightAnswerSelected(selectedQuestionNumber, question)) {
     successButton(selection);
+    
   } else {
     dagerButton(selection, idOfRightAnswer);
+    
   }
   document.getElementById("nextButten").disabled = false;
+  
 }
 
 function rightAnswerSelected(selectedQuestionNumber, question) {
@@ -146,17 +153,24 @@ function successButton(selection) {
   document.getElementById(selection).parentNode.classList.add("bg-success");
   AUDIO_SUCCESS.play();
   rightQuestions++;
+  disableAnswers();
 }
 function dagerButton(selection, idOfRightAnswer) {
   document.getElementById(selection).parentNode.classList.add("bg-danger");
   document.getElementById(idOfRightAnswer).parentNode.classList.add("bg-success");
   AUDIO_FAIL.play();
+  disableAnswers();
 }
 function nextQuestion() {
   currentQuestion++;
   document.getElementById("nextButten").disabled = true;
   resetAnswertButton();
   showQuestion();
+}
+function disableAnswers() {
+  document.querySelectorAll(".quiz-answer-card").forEach(element => {
+    element.disabled = true;
+  });  
 }
 
 function resetAnswertButton() {
@@ -174,6 +188,7 @@ function restartGame() {
   document.getElementById('header-image').src = './img/background-paper.jpg';
   document.getElementById('endScreen').style = 'display: none';
   document.getElementById('questionBody').style = '';
+  document.querySelector('.question-footer').style.display = '';
   let headerImageHover = document.querySelector('.confettiGo');
   headerImageHover.removeEventListener('mouseover', handleImageHover);
   document.getElementById('header-image').classList.remove('confettiGo');
